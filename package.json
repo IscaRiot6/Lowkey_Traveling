@@ -1,0 +1,12 @@
+{
+  "name": "Lowkey-Traveling-root",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd lowkey-backend && nodemon src/server.ts",
+    "client": "cd lowkey-frontend && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
+
