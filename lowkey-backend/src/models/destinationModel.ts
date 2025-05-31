@@ -7,6 +7,11 @@ export interface IDestination extends Document {
   description: string;
   image: string;
   region?: string;
+  createdBy?: string;
+  likes?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  
 }
 
 interface IDestinationModel extends Model<IDestination> {}
@@ -26,8 +31,12 @@ const destinationSchema = new mongoose.Schema<IDestination>({
     message: 'Image must be a valid URL ending in .jpg, .png, etc.'
   }
 },
-  region: { type: String }
-});
+  region: { type: String },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  likes: { type: Number, default: 0 }
+},
+{ timestamps: true }
+);
 
 const Destination = mongoose.models.Destination as IDestinationModel || mongoose.model<IDestination, IDestinationModel>('Destination', destinationSchema)
 export default Destination;

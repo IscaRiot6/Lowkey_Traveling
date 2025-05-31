@@ -6,6 +6,7 @@ export interface IUser extends Document {
   email: string;
   password: string;
   profilePic?: string;
+  favorites?: (mongoose.Types.ObjectId | string)[];
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
@@ -36,7 +37,8 @@ const userSchema = new mongoose.Schema<IUser>({
   profilePic: {
     type: String,
     default: ''
-  }
+  },
+   favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Destination' }]
 });
 
 userSchema.pre<IUser>('save', async function (next) {
