@@ -5,9 +5,10 @@ import { addToFavorites, removeFromFavorites, getFavorites } from '../controller
 
 const router = express.Router();
 
-router.get('/:userId', authMiddleware, getFavorites);
-router.put('/:userId/:destinationId', authMiddleware, addToFavorites);
-router.delete('/:userId/:destinationId', authMiddleware, removeFromFavorites);
+router.get('/', authMiddleware, getFavorites); 
+router.put('/:destinationId', authMiddleware, addToFavorites);
+router.delete('/:destinationId', authMiddleware, removeFromFavorites);
+
 
 
 

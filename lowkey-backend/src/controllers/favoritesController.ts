@@ -1,12 +1,13 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import mongoose from 'mongoose';
 import User from '../models/userModel';
+import { AuthRequest } from '../types';
 
-const getFavorites = async (req: Request, res: Response): Promise<void> => {
+const getFavorites = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { userId } = req.params;
-
+    const userId = req.user?.id;
     const user = await User.findById(userId).populate('favorites');
+
     if (!user) {
       res.status(404).json({ message: 'User not found' });
       return;
@@ -19,9 +20,10 @@ const getFavorites = async (req: Request, res: Response): Promise<void> => {
 };
 
 
-const addToFavorites = async (req: Request, res: Response): Promise<void> => {
+const addToFavorites = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { userId, destinationId } = req.params;
+    const userId = req.user?.id;
+    const { destinationId } = req.params;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -42,9 +44,11 @@ const addToFavorites = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-const removeFromFavorites = async (req: Request, res: Response): Promise<void> => {
+const removeFromFavorites = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { userId, destinationId } = req.params;
+    const userId = req.user?.id;
+    const { destinationId } = req.params;
+
 
     const user = await User.findById(userId);
     if (!user) {
