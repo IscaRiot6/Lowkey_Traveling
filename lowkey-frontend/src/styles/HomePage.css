@@ -39,6 +39,7 @@
 /* Create form styling */
 .form-container {
   margin: 2rem auto;
+  margin-bottom: 2rem;
   padding: 1rem;
   max-width: 600px;
   border: 1px solid #ddd;

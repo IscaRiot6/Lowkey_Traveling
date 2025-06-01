@@ -9,6 +9,7 @@ const HomePage = () => {
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showForm, setShowForm] = useState(false);
 
   const filteredDestinations = destinations.filter((dest) =>
     dest.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -42,7 +43,14 @@ const HomePage = () => {
       </div>
 
       {/* ✅ Form Section */}
-      <CreateDestinationForm />
+      <button
+        onClick={() => setShowForm((prev) => !prev)}
+        className='mb-4 px-4 py-2 bg-blue-600 text-white rounded'
+      >
+        {showForm ? 'Hide Form' : 'Create New Destination'}
+      </button>
+
+      {showForm && <CreateDestinationForm />}
 
       <main className='destination-wrapper'>
         <section className='destination-header'>

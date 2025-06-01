@@ -65,13 +65,14 @@ const CreateDestinationForm = () => {
     try {
       await destinationApi.createDestination(payload);
       setForm(initialFormState);
-      setError('');
       toast.success('Destination created successfully!');
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
+        toast.error(err.message || 'Something went wrong.');
       } else {
         setError('Something went wrong.');
+        toast.error('Something went wrong.');
       }
     }
   };
