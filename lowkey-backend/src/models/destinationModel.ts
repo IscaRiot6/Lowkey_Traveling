@@ -11,7 +11,7 @@ export interface IDestination extends Document {
   likes?: number;
   createdAt?: Date;
   updatedAt?: Date;
-  
+  tags?: string[];
 }
 
 interface IDestinationModel extends Model<IDestination> {}
@@ -22,18 +22,19 @@ const destinationSchema = new mongoose.Schema<IDestination>({
   type: { type: String, required: true },
   description: { type: String, required: true },
   image: {
-  type: String,
-  required: false,
-  validate: {
-    validator: function (v: string) {
-      return /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(v);
-    },
-    message: 'Image must be a valid URL ending in .jpg, .png, etc.'
-  }
-},
+    type: String,
+    required: false,
+    validate: {
+      validator: function (v: string) {
+        return /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)(\?.*)?$/i.test(v);
+        },
+        message: 'Image must be a valid URL ending in .jpg, .png, etc.'
+    }
+  },
   region: { type: String },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  likes: { type: Number, default: 0 }
+  likes: { type: Number, default: 0 },
+  tags: [{ type: String }],
 },
 { timestamps: true }
 );

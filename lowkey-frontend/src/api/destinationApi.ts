@@ -1,8 +1,9 @@
 interface DestinationInput {
-  title: string;
+  name: string;
   description: string;
-  location: string;
-  imageUrl?: string;
+  country: string;
+  type: string;
+  image?: string;
 }
 
 const destinationApi = () => {
