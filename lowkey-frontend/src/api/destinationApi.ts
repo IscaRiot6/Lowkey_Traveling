@@ -31,7 +31,7 @@ const destinationApi = () => {
     return await res.json();
   };
 
-   const updateDestination = async (id: string, data: DestinationInput) => {
+  const updateDestination = async (id: string, data: DestinationInput) => {
     const res = await fetch(`${API_URL}/api/destinations/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },

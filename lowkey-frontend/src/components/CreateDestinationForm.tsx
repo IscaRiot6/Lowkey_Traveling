@@ -8,6 +8,8 @@ const CreateDestinationForm = () => {
     type: '',
     description: '',
     image: '',
+    region: '',
+    tags: '', // comma-separated string
   });
 
   const [error, setError] = useState('');
@@ -24,17 +26,32 @@ const CreateDestinationForm = () => {
       return;
     }
 
-    if (form.image && !/^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(form.image)) {
+    if (
+      form.image &&
+      !/^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(form.image)
+    ) {
       setError('Image must be a valid URL ending in .jpg, .png, etc.');
       return;
     }
 
+    const payload = {
+      ...form,
+      tags: form.tags
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(Boolean),
+    };
+
     try {
-      await destinationApi.createDestination(form);
+      await destinationApi.createDestination(payload);
       setError('');
       alert('Destination created successfully!');
-    } catch (err: any) {
-      setError(err.message || 'Something went wrong.');
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Something went wrong.');
+      }
     }
   };
 
@@ -86,6 +103,24 @@ const CreateDestinationForm = () => {
         name="image"
         placeholder="Image URL"
         value={form.image}
+        onChange={handleChange}
+        className="w-full border px-3 py-2"
+      />
+
+      <input
+        type="text"
+        name="region"
+        placeholder="Region (optional)"
+        value={form.region}
+        onChange={handleChange}
+        className="w-full border px-3 py-2"
+      />
+
+      <input
+        type="text"
+        name="tags"
+        placeholder="Tags (comma-separated)"
+        value={form.tags}
         onChange={handleChange}
         className="w-full border px-3 py-2"
       />
