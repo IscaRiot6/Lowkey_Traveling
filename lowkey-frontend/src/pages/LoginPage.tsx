@@ -35,13 +35,15 @@ const LoginPage = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+  <div className="login-wrapper">
+    <form onSubmit={handleSubmit} className="login-form">
       <input
         type="text"
         name="username"
         placeholder="Username"
         value={form.username}
         onChange={handleChange}
+        className="login-input"
       />
       <input
         type={showPassword ? 'text' : 'password'}
@@ -49,14 +51,22 @@ const LoginPage = () => {
         placeholder="Password"
         value={form.password}
         onChange={handleChange}
+        className="login-input"
       />
-      <button type="button" onClick={toggleVisibility}>
-        {showPassword ? '🙈 Hide' : '👁️ Show'}
-      </button>
-      <button type="submit">Login</button>
-      {error && <p>{error}</p>}
+      <div className="login-buttons">
+        <button type="button" onClick={toggleVisibility}>
+          {showPassword ? '🙈 Hide' : '👁️ Show'}
+        </button>
+        <button type="submit">Login</button>
+      </div>
+      {error && <p className="login-error">{error}</p>}
     </form>
-  );
+    <div className="login-footer">
+      {/* Empty at the moment */}
+    </div>
+  </div>
+);
+
 };
 
 export default LoginPage;
