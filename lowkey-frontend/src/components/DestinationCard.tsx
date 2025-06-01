@@ -1,12 +1,7 @@
+import type { Destination } from '../types/destinationTypes';
+
 interface Props {
-  destination: {
-    _id: string;
-    name: string;
-    country: string;
-    type: string;
-    description: string;
-    image: string;
-  };
+  destination: Destination;
 }
 
 const DestinationCard = ({ destination }: Props) => {
