@@ -1,51 +1,72 @@
 import { useState } from 'react';
 import destinationApi from '../api/destinationApi';
+import toast from 'react-hot-toast';
+
+const initialFormState = {
+  name: '',
+  country: '',
+  type: '',
+  description: '',
+  image: '',
+  region: '',
+  tags: '',
+};
 
 const CreateDestinationForm = () => {
-  const [form, setForm] = useState({
-    name: '',
-    country: '',
-    type: '',
-    description: '',
-    image: '',
-    region: '',
-    tags: '', // comma-separated string
-  });
-
+  const [form, setForm] = useState(initialFormState);
   const [error, setError] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!form.name || !form.country || !form.type || !form.description) {
+    const trimmedForm = {
+      ...form,
+      name: form.name.trim(),
+      country: form.country.trim(),
+      type: form.type.trim(),
+      description: form.description.trim(),
+      image: form.image.trim(),
+      region: form.region.trim(),
+      tags: form.tags.trim(),
+    };
+
+    if (
+      !trimmedForm.name ||
+      !trimmedForm.country ||
+      !trimmedForm.type ||
+      !trimmedForm.description
+    ) {
       setError('Please fill in all required fields.');
       return;
     }
 
     if (
-      form.image &&
-      !/^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(form.image)
+      trimmedForm.image &&
+      !/^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(trimmedForm.image)
     ) {
       setError('Image must be a valid URL ending in .jpg, .png, etc.');
       return;
     }
 
     const payload = {
-      ...form,
-      tags: form.tags
+      ...trimmedForm,
+      tags: trimmedForm.tags
         .split(',')
-        .map(tag => tag.trim())
+        .map((tag) => tag.trim())
         .filter(Boolean),
     };
 
     try {
       await destinationApi.createDestination(payload);
+      setForm(initialFormState);
       setError('');
-      alert('Destination created successfully!');
+      toast.success('Destination created successfully!');
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
@@ -56,79 +77,76 @@ const CreateDestinationForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
-      {error && <p className="text-red-600">{error}</p>}
+    <div className='form-container'>
+      <h2 className='text-xl font-semibold mb-4'>Create New Destination</h2>
+      <form onSubmit={handleSubmit} className='form-box'>
+        {error && <p className='text-red-600 mb-2'>{error}</p>}
 
-      <input
-        type="text"
-        name="name"
-        placeholder="Destination Name"
-        value={form.name}
-        onChange={handleChange}
-        required
-        className="w-full border px-3 py-2"
-      />
+        <input
+          type='text'
+          name='name'
+          placeholder='Name'
+          value={form.name}
+          onChange={handleChange}
+          required
+          className='form-input'
+        />
+        <input
+          type='text'
+          name='country'
+          placeholder='Country'
+          value={form.country}
+          onChange={handleChange}
+          required
+          className='form-input'
+        />
+        <input
+          type='text'
+          name='type'
+          placeholder='Type (e.g. city, beach)'
+          value={form.type}
+          onChange={handleChange}
+          required
+          className='form-input'
+        />
+        <input
+          type='text'
+          name='image'
+          placeholder='Image URL'
+          value={form.image}
+          onChange={handleChange}
+          className='form-input'
+        />
+        <input
+          type='text'
+          name='region'
+          placeholder='Region'
+          value={form.region}
+          onChange={handleChange}
+          className='form-input'
+        />
+        <input
+          type='text'
+          name='tags'
+          placeholder='Tags (comma-separated)'
+          value={form.tags}
+          onChange={handleChange}
+          className='form-input'
+        />
+        <textarea
+          name='description'
+          placeholder='Description'
+          value={form.description}
+          onChange={handleChange}
+          required
+          className='form-textarea'
+        />
 
-      <input
-        type="text"
-        name="country"
-        placeholder="Country"
-        value={form.country}
-        onChange={handleChange}
-        required
-        className="w-full border px-3 py-2"
-      />
-
-      <input
-        type="text"
-        name="type"
-        placeholder="Type (e.g. city, beach)"
-        value={form.type}
-        onChange={handleChange}
-        required
-        className="w-full border px-3 py-2"
-      />
-
-      <textarea
-        name="description"
-        placeholder="Description"
-        value={form.description}
-        onChange={handleChange}
-        required
-        className="w-full border px-3 py-2"
-      />
-
-      <input
-        type="text"
-        name="image"
-        placeholder="Image URL"
-        value={form.image}
-        onChange={handleChange}
-        className="w-full border px-3 py-2"
-      />
-
-      <input
-        type="text"
-        name="region"
-        placeholder="Region (optional)"
-        value={form.region}
-        onChange={handleChange}
-        className="w-full border px-3 py-2"
-      />
-
-      <input
-        type="text"
-        name="tags"
-        placeholder="Tags (comma-separated)"
-        value={form.tags}
-        onChange={handleChange}
-        className="w-full border px-3 py-2"
-      />
-
-      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-        Create Destination
-      </button>
-    </form>
+        <button type='submit' className='form-button'>
+          Create Destination
+        </button>
+      </form>
+    </div>
   );
 };
 
