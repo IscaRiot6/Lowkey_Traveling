@@ -25,9 +25,13 @@ const LoginPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await loginUser({ username: form.username, password: form.password });
-      login({ id: res.token, email: form.username }); // or adjust structure if your backend returns more
-      navigate('/dashboard'); // or wherever your protected route is
+      const res = await loginUser({
+        username: form.username,
+        password: form.password,
+      });
+      login({ id: res.token, email: form.username });
+      localStorage.setItem('token', res.token);
+      navigate('/home'); // or wherever your protected route is
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Login failed';
       setError(errorMessage);
@@ -35,38 +39,35 @@ const LoginPage = () => {
   };
 
   return (
-  <div className="login-wrapper">
-    <form onSubmit={handleSubmit} className="login-form">
-      <input
-        type="text"
-        name="username"
-        placeholder="Username"
-        value={form.username}
-        onChange={handleChange}
-        className="login-input"
-      />
-      <input
-        type={showPassword ? 'text' : 'password'}
-        name="password"
-        placeholder="Password"
-        value={form.password}
-        onChange={handleChange}
-        className="login-input"
-      />
-      <div className="login-buttons">
-        <button type="button" onClick={toggleVisibility}>
-          {showPassword ? '🙈 Hide' : '👁️ Show'}
-        </button>
-        <button type="submit">Login</button>
-      </div>
-      {error && <p className="login-error">{error}</p>}
-    </form>
-    <div className="login-footer">
-      {/* Empty at the moment */}
+    <div className='login-wrapper'>
+      <form onSubmit={handleSubmit} className='login-form'>
+        <input
+          type='text'
+          name='username'
+          placeholder='Username'
+          value={form.username}
+          onChange={handleChange}
+          className='login-input'
+        />
+        <input
+          type={showPassword ? 'text' : 'password'}
+          name='password'
+          placeholder='Password'
+          value={form.password}
+          onChange={handleChange}
+          className='login-input'
+        />
+        <div className='login-buttons'>
+          <button type='button' onClick={toggleVisibility}>
+            {showPassword ? '🙈 Hide' : '👁️ Show'}
+          </button>
+          <button type='submit'>Login</button>
+        </div>
+        {error && <p className='login-error'>{error}</p>}
+      </form>
+      <div className='login-footer'>{/* Empty at the moment */}</div>
     </div>
-  </div>
-);
-
+  );
 };
 
 export default LoginPage;

@@ -31,7 +31,7 @@ const CreateDestinationForm = () => {
       country: form.country.trim(),
       type: form.type.trim(),
       description: form.description.trim(),
-      image: form.image.trim(),
+      image: form.image.trim() || undefined,
       region: form.region.trim(),
       tags: form.tags.trim(),
     };
@@ -46,17 +46,16 @@ const CreateDestinationForm = () => {
       return;
     }
 
-    if (
-      trimmedForm.image &&
-      !/^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(trimmedForm.image)
-    ) {
-      setError('Image must be a valid URL ending in .jpg, .png, etc.');
+    if (trimmedForm.image && !/^https?:\/\/.+/i.test(trimmedForm.image)) {
+      setError('Image must be a valid URL.');
       return;
     }
 
+    const { image, ...rest } = trimmedForm;
     const payload = {
-      ...trimmedForm,
-      tags: trimmedForm.tags
+      ...rest,
+      ...(image ? { image } : {}),
+      tags: rest.tags
         .split(',')
         .map((tag) => tag.trim())
         .filter(Boolean),

@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 import Destination from '../models/destinationModel';
+import { AuthRequest } from '../types';
 
-const getAllDestinations = async (_req: Request, res: Response): Promise<void> => {
+const getAllDestinations = async (
+  _req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const destinations = await Destination.find();
     res.status(200).json(destinations);
@@ -10,27 +14,52 @@ const getAllDestinations = async (_req: Request, res: Response): Promise<void> =
   }
 };
 
-const createDestination = async (req: Request, res: Response): Promise<void> => {
+const createDestination = async (
+  req: AuthRequest,
+  res: Response
+): Promise<void> => {
   try {
-    const { name, country, type, description, image, region, createdBy } = req.body;
+    const { name, country, type, description, image, region, tags } = req.body;
 
-    const newDestination = new Destination({ name, country, type, description, image, region, createdBy });
+    // This assumes you have user info set by an auth middleware (like req.user.id)
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: 'Unauthorized' });
+      return;
+    }
+
+    const newDestination = new Destination({
+      name,
+      country,
+      type,
+      description,
+      image,
+      region,
+      tags,
+      createdBy: userId, // <--- set from token
+    });
+
     await newDestination.save();
-
     res.status(201).json(newDestination);
   } catch (error: any) {
-    res.status(500).json({ message: 'Failed to create destination', error });
+    console.error('CREATE DESTINATION ERROR:', error);
+    res
+      .status(500)
+      .json({ message: 'Failed to create destination', error: error.message });
   }
 };
 
-const updateDestination = async (req: Request, res: Response): Promise<void> => {
+const updateDestination = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { id } = req.params;
-    const { name, country, type, description, image, region } = req.body;
+    const { name, country, type, description, image, region, tags } = req.body;
 
     const updated = await Destination.findByIdAndUpdate(
       id,
-      { name, country, type, description, image, region },
+      { name, country, type, description, image, region, tags },
       { new: true, runValidators: true }
     );
 
@@ -45,8 +74,10 @@ const updateDestination = async (req: Request, res: Response): Promise<void> => 
   }
 };
 
-
-const deleteDestination = async (req: Request, res: Response): Promise<void> => {
+const deleteDestination = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { id } = req.params;
     const deleted = await Destination.findByIdAndDelete(id);
@@ -62,5 +93,9 @@ const deleteDestination = async (req: Request, res: Response): Promise<void> => 
   }
 };
 
-
-export { createDestination, getAllDestinations, updateDestination, deleteDestination };
+export {
+  createDestination,
+  getAllDestinations,
+  updateDestination,
+  deleteDestination,
+};

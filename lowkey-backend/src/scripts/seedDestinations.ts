@@ -12,7 +12,8 @@ const seedData = [
     name: 'Paris',
     country: 'France',
     description: 'City of lights with rich culture and architecture.',
-    image: 'https://images.unsplash.com/photo-1549692520-acc6669e2f0c',
+    image:
+      'https://images.pexels.com/photos/2675268/pexels-photo-2675268.jpeg?auto=compress&cs=tinysrgb&w=600',
     tags: ['romantic', 'culture', 'europe'],
     type: 'city',
   },

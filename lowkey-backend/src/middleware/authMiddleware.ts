@@ -5,7 +5,11 @@ import { AuthRequest } from '../types'; // ✅ using shared type
 
 dotenv.config();
 
-const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): void => {
+const authMiddleware = (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+): void => {
   const token = req.headers.authorization?.split(' ')[1];
 
   if (!token) {
@@ -14,9 +18,13 @@ const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): vo
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+      id: string;
+    };
     req.user = { id: decoded.id };
     next();
+    console.log('Decoded token:', decoded);
+    console.log('Decoded user ID:', decoded.id);
   } catch (error) {
     res.status(401).json({ message: 'Token is not valid' });
   }

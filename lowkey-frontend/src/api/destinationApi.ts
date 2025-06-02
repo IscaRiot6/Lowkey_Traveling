@@ -19,13 +19,18 @@ const destinationApi = () => {
   };
 
   const createDestination = async (data: DestinationInput) => {
+    const token = localStorage.getItem('token');
     const res = await fetch(`${API_URL}/api/destinations`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // <-- include token if exists
+      },
       body: JSON.stringify(data),
     });
     if (!res.ok) {
       const err = await res.json();
+
       throw new Error(err.message || 'Failed to create destination');
     }
     return await res.json();
@@ -39,6 +44,7 @@ const destinationApi = () => {
     });
     if (!res.ok) {
       const err = await res.json();
+
       throw new Error(err.message || 'Failed to update destination');
     }
     return await res.json();

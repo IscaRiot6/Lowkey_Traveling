@@ -16,28 +16,39 @@ export interface IDestination extends Document {
 
 interface IDestinationModel extends Model<IDestination> {}
 
-const destinationSchema = new mongoose.Schema<IDestination>({
-  name: { type: String, required: true },
-  country: { type: String, required: true },
-  type: { type: String, required: true },
-  description: { type: String, required: true },
-  image: {
-    type: String,
-    required: false,
-    validate: {
-      validator: function (v: string) {
-        return /^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)(\?.*)?$/i.test(v);
+const destinationSchema = new mongoose.Schema<IDestination>(
+  {
+    name: { type: String, required: true },
+    country: { type: String, required: true },
+    type: { type: String, required: true },
+    description: { type: String, required: true },
+    image: {
+      type: String,
+      required: false,
+      validate: {
+        validator: function (v: string | undefined): boolean {
+          if (!v || v.trim() === '') return true;
+          return /^https?:\/\/.+/i.test(v);
         },
-        message: 'Image must be a valid URL ending in .jpg, .png, etc.'
-    }
+        message: 'Image must be a valid URL.',
+      },
+    },
+    region: { type: String },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    likes: { type: Number, default: 0 },
+    tags: [{ type: String }],
   },
-  region: { type: String },
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  likes: { type: Number, default: 0 },
-  tags: [{ type: String }],
-},
-{ timestamps: true }
+  { timestamps: true }
 );
 
-const Destination = mongoose.models.Destination as IDestinationModel || mongoose.model<IDestination, IDestinationModel>('Destination', destinationSchema)
+const Destination =
+  (mongoose.models.Destination as IDestinationModel) ||
+  mongoose.model<IDestination, IDestinationModel>(
+    'Destination',
+    destinationSchema
+  );
 export default Destination;
