@@ -1,0 +1,70 @@
+/* /src/styles/WelcomePage.css */
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  min-height: 100vh;
+  background: linear-gradient(to right, #e0f7fa, #fff);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.welcome-header h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-header p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.welcome-nav {
+  margin: 2rem 0;
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.welcome-nav a {
+  text-decoration: none;
+  background-color: #00796b;
+  color: white;
+  padding: 0.7rem 1.2rem;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.welcome-nav a:hover {
+  background-color: #004d40;
+}
+
+.welcome-footer {
+  margin-top: auto;
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.welcome-footer a {
+  color: #00796b;
+  text-decoration: underline;
+}
+
+.welcome-img {
+  width: 300px;
+  margin-top: 2rem;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

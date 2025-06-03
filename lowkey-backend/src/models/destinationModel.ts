@@ -12,6 +12,7 @@ export interface IDestination extends Document {
   createdAt?: Date;
   updatedAt?: Date;
   tags?: string[];
+  isSeeded?: boolean;
 }
 
 interface IDestinationModel extends Model<IDestination> {}
@@ -39,6 +40,7 @@ const destinationSchema = new mongoose.Schema<IDestination>(
       ref: 'User',
       required: true,
     },
+    isSeeded: { type: Boolean, default: false },
     likes: { type: Number, default: 0 },
     tags: [{ type: String }],
   },
