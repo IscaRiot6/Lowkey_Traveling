@@ -3,7 +3,7 @@ import destinationApi from '../api/destinationApi';
 import DestinationCard from '../components/DestinationCard';
 import CreateDestinationForm from '../components/CreateDestinationForm'; // ✅ import
 import type { Destination } from '../types/destinationTypes';
-import '../styles/HomePage.css';
+import '../styles/pages/HomePage.css';
 
 const HomePage = () => {
   const [destinations, setDestinations] = useState<Destination[]>([]);

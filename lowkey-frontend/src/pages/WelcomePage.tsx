@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import '../styles/WelcomePage.css';
-import TravelIllustration from '../assets/adventure-1-82.svg';
+import '../styles/pages/WelcomePage.css';
+// import slide1 from '../assets/WelcomePage/slide1.svg';
+import WelcomeSlideshow from '../components/WelcomeSlideshow';
 
 function WelcomePage() {
   return (
@@ -8,11 +9,8 @@ function WelcomePage() {
       <header className='welcome-header'>
         <h1>🌍 Traveling Lowkey</h1>
         <p>Plan and discover your next quiet adventure.</p>
-        <img
-          src={TravelIllustration}
-          alt='Travel illustration'
-          className='welcome-img'
-        />
+        <WelcomeSlideshow />
+        {/* <img src={slide1} alt='Travel illustration' className='welcome-img' /> */}
       </header>
 
       <nav className='welcome-nav'>
