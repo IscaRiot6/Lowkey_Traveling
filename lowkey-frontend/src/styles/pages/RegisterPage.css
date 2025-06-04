@@ -1,0 +1,106 @@
+.register-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #e0f2f1, #fce4ec);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.register-form {
+  background: white;
+  padding: 3rem 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  gap: 1.2rem;
+}
+
+.register-input {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 0.8rem;
+  font-size: 1rem;
+}
+
+.register-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.register-button {
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: 500;
+  border: 1px solid transparent;
+  background-color: #00796b !important;
+  color: white !important;
+  padding: 0.8rem 1.2rem;
+  border: none;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  flex: 1;
+}
+
+.register-button:hover {
+  background-color: #004d40 !important;
+  border-color: #646cff;
+}
+
+.register-button:focus,
+.register-button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.register-toggle {
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 0.8rem;
+  padding: 0.8rem 1.2rem;
+  color: #555;
+  font-size: 0.9rem;
+  cursor: pointer;
+  flex: 1;
+}
+
+.register-footer {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.register-link {
+  color: #00796b;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}
+
+.register-error {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+} */
+
+/* h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+} */

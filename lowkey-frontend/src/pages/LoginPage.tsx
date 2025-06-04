@@ -65,7 +65,7 @@ const LoginPage = () => {
         </div>
         {error && <p className='login-error'>{error}</p>}
       </form>
-      <div className='login-footer'>{/* Empty at the moment */}</div>
+      <div className='login-footer'>Not a user yet? Sign up here!</div>
     </div>
   );
 };
